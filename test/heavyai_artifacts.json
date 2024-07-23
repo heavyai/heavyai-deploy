@@ -1,0 +1,446 @@
+{
+    "connection_info": {
+        "host": "${HEAVYAI_HOST}",
+        "port": "${HEAVYAI_DB_PORT}",
+        "user": "${APP_DB_USER}",
+        "password": "${APP_DB_PASS}",
+        "database": "${APP_DB}"
+    },
+    "databases": [
+        "heavyai"
+    ],
+    "static_tables": {
+        "heavyai": {
+            "baltco_building_polys": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/baltco_building_polys.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "baltco_buildings_enriched": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/baltco_buildings_enriched.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "cb_2018_us_county_500k": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/cb_2018_us_county_500k.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "h3_hex06i_conus_metadata": {
+                "ddl_cmd": [
+                    "CREATE TABLE IF NOT EXISTS h3_hex06i_conus_metadata ( ",
+                    "    hex06i BIGINT, ",
+                    "    huc12 TEXT ENCODING DICT(32), ",
+                    "    county_fips TEXT ENCODING DICT(16), ",
+                    "    state_fips TEXT ENCODING DICT(8), ",
+                    "    geom GEOMETRY(MULTIPOLYGON, 4326) ENCODING COMPRESSED(32) ",
+                    ") "
+                ],
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/h3_hex06i_conus_metadata.geojson",
+                    "is_dump": "false",
+                    "with_clause": "source_type='geo_file', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "hampton_roads_buildings": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/hampton_roads_buildings.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "heavyeco_buildings_st_louis_msa_hand": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/heavyeco_buildings_st_louis_msa_hand.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "heavyeco_buildings_st_louis_msa_wshed": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/heavyeco_buildings_st_louis_msa_wshed.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "heavyeco_places_census2020_stl": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/heavyeco_places_census2020_stl.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "heavyeco_places_mo_st_louis": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/heavyeco_places_mo_st_louis.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "heavyeco_roads_noaa_hand_stl": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/heavyeco_roads_noaa_hand_stl.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "HUC8_US": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/HUC8_US.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "nfhl_S_Gen_Struct": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/nfhl_S_Gen_Struct.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "noaa_hand_rem_zeroed_masked_stl": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/noaa_hand_rem_zeroed_masked_stl.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "nwm_reach_forecast_geo": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/nwm_reach_forecast_geo.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "seva_elev_5m": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/seva_elev_5m.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "seva_overture_buildings_loc_elev": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/seva_overture_buildings_loc_elev.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "us_building_footprints_hex06": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/us_building_footprints_hex06.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "us_census_tiger2023_bg": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/us_census_tiger2023_bg.dump.gzip",
+                    "is_dump": "true",
+                    "with_clause": "compression='gzip', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "us_trans_roads_v3": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/us_trans_roads_v3.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "us_watershed_boundaries_huc12": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/us_watershed_boundaries_huc12.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "usgs_flood_statistics": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/usgs_flood_statistics.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "VA_Evacuation_Zones_2020": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/VA_Evacuation_Zones_2020.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            },
+            "va_trans_roads_elev": {
+                "import": {
+                    "source_uri": "s3://heavy-ds-test/heavyeco_prod/datasets/va_trans_roads_elev.dump.lz4",
+                    "is_dump": "true",
+                    "with_clause": "compression='lz4', s3_region='us-east-1', s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+                },
+                "if_exists": "skip"
+            }
+        }
+    },
+    "foreign_servers": {
+        "heavyai": {
+            "heavyeco_s3_root": {
+                "wrapper": "PARQUET_FILE",
+                "storage_type": "AWS_S3",
+                "s3_bucket": "heavy-ds-sandbox",
+                "aws_region": "us-east-1",
+                "user_mapping_with_clause": "s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+            },
+            "heavyeco_latest_hrrr_server": {
+                "wrapper": "PARQUET_FILE",
+                "storage_type": "AWS_S3",
+                "s3_bucket": "heavy-ds-sandbox",
+                "aws_region": "us-east-1",
+                "base_path": "/noaa/hrrr/hrrr._latest/conus/ground/",
+                "user_mapping_with_clause": "s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+            },
+            "heavyeco_latest_nbm_server": {
+                "wrapper": "PARQUET_FILE",
+                "storage_type": "AWS_S3",
+                "s3_bucket": "heavy-ds-sandbox",
+                "aws_region": "us-east-1",
+                "base_path": "/noaa/nbm/nbm._latest/conus/",
+                "user_mapping_with_clause": "s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+            },
+            "nwm_short_range_channel_rt_server": {
+                "wrapper": "PARQUET_FILE",
+                "storage_type": "AWS_S3",
+                "s3_bucket": "heavy-ds-sandbox",
+                "aws_region": "us-east-1",
+                "base_path": "/noaa/nwm/nwm._latest/short_range/channel_rt",
+                "user_mapping_with_clause": "s3_access_key='${HC_AWS_ACCESS_KEY_ID}', s3_secret_key='${HC_AWS_SECRET_ACCESS_KEY}'"
+            }
+        }
+    },
+    "foreign_tables": {
+        "heavyai": {
+            "noaa_national_gage_forecast_latest": {
+                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_national_gage_forecast.sql",
+                "server": "heavyeco_s3_root",
+                "with_clause": "FILE_PATH='noaa/gage_forecasts/gage_forecast._latest/', REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL'",
+                "if_exists": "skip"
+            },
+            "noaa_hrrr_ground_wrf_prs": {
+                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_hrrr_ground.sql",
+                "server": "heavyeco_latest_hrrr_server",
+                "with_clause": "REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL'",
+                "if_exists": "skip"
+            },
+            "nwm_short_range_channel_rt": {
+                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_nwm_channel_rt.sql",
+                "server": "nwm_short_range_channel_rt_server",
+                "with_clause": "REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL'",
+                "if_exists": "skip"
+            },
+            "nwm_short_range_coastal_total_water_level_latest": {
+                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_nwm_total_water.sql",
+                "server": "heavyeco_s3_root",
+                "with_clause": "REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL', REGEX_PATH_FILTER='.*/noaa/nwm/nwm._latest/short_range_coastal_.*/.*'",
+                "if_exists": "skip"
+            }
+        }
+    },
+    "dashboards": {
+        "heavyai": {
+            "HeavyEco - Flood - Saint Louis": {
+                "dashboard_uri": "${PROJECT_DIR}/test/dashboards/heavyeco_flood_st_louis.json",
+                "if_exists": "rename"
+            },
+            "HeavyEco - Flood - Southeast Virginia": {
+                "dashboard_uri": "${PROJECT_DIR}/test/dashboards/heavyeco_flood_se_virginia.json",
+                "if_exists": "rename"
+            },
+            "Data Processing Status": {
+                "dashboard_uri": "${PROJECT_DIR}/test/dashboards/data_processing_status.json",
+                "if_exists": "rename"
+            }
+        }
+    },
+    "roles": {
+        "muni_st_louis": {
+            "databases": {
+                "heavyai" : [
+                    "ACCESS",
+                    "SELECT"
+                ]
+            },
+            "dashboards": {
+                "heavyai": {
+                    "HeavyEco - Flood - Saint Louis": [
+                        "VIEW"
+                    ],
+                    "Data Processing Status": [
+                        "VIEW"
+                    ]
+                }
+            }
+        },
+        "muni_virginia_beach": {
+            "databases": {
+                "heavyai" : [
+                    "ACCESS",
+                    "SELECT"
+                ]
+            },
+            "dashboards": {
+                "heavyai": {
+                    "HeavyEco - Flood - Southeast Virginia": [
+                        "VIEW"
+                    ],
+                    "Data Processing Status": [
+                        "VIEW"
+                    ]
+                }
+            }
+        }
+    },
+    "policies": {
+        "heavyai": {
+            "geo_h3i_to_huc12_census": {
+                "huc12i": {
+                    "muni_st_louis": "71401010401, 71401010403, 103002000804, 71401010505, 71401010506, 71401010507",
+                    "muni_virginia_beach": "30102051201, 30102051202, 30102051203, 30102051204, 30102051205, 30102051206, 20801080201, 20801080202, 30102051108, 20802080204, 20801010000, 30102051301, 30102051302, 30102051303, 30102051304, 30102051701, 20403040502, 20403040501, 30102051706"
+                }
+            }
+        }
+    },
+    "users": {
+        "muni_st_louis_user1": {
+            "password": "HeavyEco!1",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "muni_st_louis_user2": {
+            "password": "HeavyEco!1",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "muni_st_louis_user3": {
+            "password": "HeavyEco!1",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "muni_virginia_beach_user1": {
+            "password": "HeavyEco!1",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_virginia_beach"
+            ]
+        },
+        "muni_virginia_beach_user2": {
+            "password": "HeavyEco!1",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_virginia_beach"
+            ]
+        },
+        "muni_virginia_beach_user3": {
+            "password": "HeavyEco!1",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_virginia_beach"
+            ]
+        },
+        "mbingle@riversideresearch.org": {
+            "password": "HeavyEco!2024",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "acarbonell.consultant@riversideresearch.org": {
+            "password": "HeavyEco@2024",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "Patricia@downtowntrex.org": {
+            "password": "HeavyEco#2024",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "mthompson1@riversideresearch.org": {
+            "password": "HeavyEco%2024",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "tsherwood@riversideresearch.org": {
+            "password": "HeavyEco^2024",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        },
+        "kkowalewsky@riversideresearch.org": {
+            "password": "HeavyEco&2024",
+            "can_login": "true",
+            "is_super": "false",
+            "default_db": "heavyai",
+            "roles": [
+                "muni_st_louis"
+            ]
+        }
+    }
+}

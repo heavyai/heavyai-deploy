@@ -146,11 +146,11 @@ RE_IS_TAB_COLUMN = re.compile('(?i)([a-zA-Z][a-zA-Z0-9\$_]*)\s+(' + '|'.join(COL
 
 # password obfuscation
 #
-RE_OBFUSCATE_DB_URL_PW = re.compile(r':[^:\'\s\"@]+@')
-RE_OBFUSCATE_DB_URL_PW_REPL = ':XXXX@'
-RE_OBFUSCATE_ODBC_PW = re.compile(r'(?i);pwd=[^;\s]+')
-RE_OBFUSCATE_ODBC_PW_REPL = ';pwd=XXXX'
-RE_OBFUSCATE_S3_KEY = re.compile(r"(?i)(?:s3_secret_key)\s*=\s*\'([^\']{40})\'")
+RE_OBFUSCATE_DB_URL_PW = re.compile(r':(?!XXXX)([^:\'\s\"@]+)@')
+RE_OBFUSCATE_DB_URL_PW_REPL = 'XXXX'
+RE_OBFUSCATE_ODBC_PW = re.compile(r'(?i)password\s*=\s*(?!XXXX)([^;\s]+)')
+RE_OBFUSCATE_ODBC_PW_REPL = r'XXXX'
+RE_OBFUSCATE_S3_KEY = re.compile(r"(?i)s3_secret_key\s*=\s*\'([^\']{40})\'")
 RE_OBFUSCATE_S3_KEY_REPL = 'XXXX'
 
 # connection defaults

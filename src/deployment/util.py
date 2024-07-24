@@ -123,7 +123,7 @@ def obfuscate_secrets(instr: str) -> str:
             break
 
         searchstr = m.group(1)
-        retval = retval.replace(searchstr, RE_OBFUSCATE_DB_URL_PW_REPL)
+        retval = re.sub(searchstr, RE_OBFUSCATE_DB_URL_PW_REPL, retval)
 
     while True:
         m = re.search(RE_OBFUSCATE_ODBC_PW, retval)
@@ -131,7 +131,7 @@ def obfuscate_secrets(instr: str) -> str:
             break
 
         searchstr = m.group(1)
-        retval = retval.replace(searchstr, RE_OBFUSCATE_ODBC_PW_REPL)
+        retval = re.sub(searchstr, RE_OBFUSCATE_ODBC_PW_REPL, retval)
 
     while True:
         m = re.search(RE_OBFUSCATE_S3_KEY, retval)
@@ -141,11 +141,11 @@ def obfuscate_secrets(instr: str) -> str:
         searchstr = m.group(1)
 
         # s3 secret keys are 40 characters long so we can include the first and
-        # last 4 characters in the obfuscated string
+        # last 4 characters in the obfuscated string. shortening the key prevents
+        # the obfuscated string from being matched again in the same string.
         #
         repl_str = searchstr[:4] + '...' + searchstr[-4:]
-
-        retval = retval.replace(searchstr, repl_str)
+        retval = re.sub(searchstr, repl_str, retval)
 
     return retval
 

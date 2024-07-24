@@ -854,16 +854,16 @@ def generate_ddl(plan: dict) -> list[str]:
                     new_dn = escaped_dn + new_resource_postfix
 
                     if plan['dashboards'][db][dash_name]['if_exists'] == RESOURCE_IF_EXISTS_ACTIONS.REPLACE:
-                        ddls['dashboards'][db].append(f"\\drop_dashboard '{escaped_dn}'")
+                        ddls['dashboards'][db].append(f'\\drop_dashboard "{escaped_dn}"')
                     elif plan['dashboards'][db][dash_name]['if_exists'] == RESOURCE_IF_EXISTS_ACTIONS.RENAME:
-                        ddls['dashboards'][db].append(f"\\rename_dashboard '{escaped_dn}' '{new_dn}'")
+                        ddls['dashboards'][db].append(f'\\rename_dashboard "{escaped_dn}" "{new_dn}"')
                     else:
                         ddls['dashboards'][db].append(f'-- {COLORS.WARNING}Dashboard "{dash_name}" exists but "if_exists" flag set to "skip". Skipping.{COLORS.END}')
                         continue
                 
                 if plan['dashboards'][db][dash_name]['state'] == RESOURCE_STATES.NEEDS_CREATION or \
                    plan['dashboards'][db][dash_name]['if_exists'] != RESOURCE_IF_EXISTS_ACTIONS.SKIP:
-                    ddls['dashboards'][db].append(f"\\import_dashboard '{escaped_dn}' '{plan['dashboards'][db][dash_name]['dashboard_uri']}'")
+                    ddls['dashboards'][db].append(f'\\import_dashboard "{escaped_dn}" "{plan["dashboards"][db][dash_name]["dashboard_uri"]}"')
 
 
     if 'roles' in plan:

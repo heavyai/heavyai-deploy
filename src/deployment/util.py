@@ -387,11 +387,13 @@ def exec_dash_ddl(con: Connection, ddl: str) -> None:
     '\import_dashboard') so this implements support for them. Supported
     commands are:
 
-    \drop_dashboard 'dashboard_name'
+    \drop_dashboard "dashboard_name"
     
-    \rename_dashboard 'dashboard_name' 'new_dashboard_name'
+    \rename_dashboard "dashboard_name" "new_dashboard_name"
     
-    \import_dashboard 'dashboard_name' 'file_uri'
+    \import_dashboard "dashboard_name" "file_uri"
+
+    NOTE: Arguments must be double quoted, not single quoted.
     """
     ddl = ddl.strip()
     db = con._client.get_session_info(con._session).database
@@ -402,13 +404,14 @@ def exec_dash_ddl(con: Connection, ddl: str) -> None:
 
     cmd = args[0]
 
-    if len(args) > 0:
-        dash = args[1][1:-1].replace("\\'", "'")
+    if len(args) >= 2:
+        dash = args[1][1:-1] if args[1].startswith('"') else args[1]
+        dash = dash.replace('\\"', '"')
     else:
         raise RuntimeError(f'Missing arguments to {cmd}: {ddl}')
     
     if cmd != '\\drop_dashboard':
-        if len(args) < 2:
+        if len(args) < 3:
             raise RuntimeError(f'Missing arguments to {cmd}: {ddl}')
     
     dash_id = get_dash_id_from_name(con, db, dash) if cmd != '\\import_dashboard' else None
@@ -418,7 +421,8 @@ def exec_dash_ddl(con: Connection, ddl: str) -> None:
             con._client.delete_dashboard(con._session, dash_id)
 
         case '\\rename_dashboard':
-            new_dash = args[2][1:-1].replace("\\'", "'")
+            new_dash = args[2][1:-1] if args[2].startswith('"') else args[2]
+            new_dash = new_dash.replace('\\"', '"')
 
             # there doesn't seem to be a way in the heavyai API to rename a
             # dashboard, so we have to duplicate it and delete the original.
@@ -427,7 +431,8 @@ def exec_dash_ddl(con: Connection, ddl: str) -> None:
             con._client.delete_dashboard(con._session, dash_id)
 
         case '\\import_dashboard':
-            dash_file_uri = args[2][1:-1].replace("\\'", "'")
+            dash_file_uri = args[2][1:-1] if args[2].startswith('"') else args[2]
+            dash_file_uri = dash_file_uri.replace('\\"', '"')
             dname, dmeta, dstate = get_file_content(dash_file_uri).split('\n', 2)
 
             con._client.create_dashboard(

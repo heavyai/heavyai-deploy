@@ -27,9 +27,6 @@ dependencies:
 # workflow
 - python-dotenv
 
-# deployment
-- pyinstaller
-
 # heavyai
 - heavyai = 1.3
 - sqlalchemy

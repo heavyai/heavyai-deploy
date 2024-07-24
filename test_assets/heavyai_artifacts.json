@@ -244,25 +244,25 @@
     "foreign_tables": {
         "heavyai": {
             "noaa_national_gage_forecast_latest": {
-                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_national_gage_forecast.sql",
+                "ddl_uri": "${PROJECT_DIR}/test_assets/sql/ddl_noaa_national_gage_forecast.sql",
                 "server": "heavyeco_s3_root",
                 "with_clause": "FILE_PATH='noaa/gage_forecasts/gage_forecast._latest/', REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL'",
                 "if_exists": "skip"
             },
             "noaa_hrrr_ground_wrf_prs": {
-                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_hrrr_ground.sql",
+                "ddl_uri": "${PROJECT_DIR}/test_assets/sql/ddl_noaa_hrrr_ground.sql",
                 "server": "heavyeco_latest_hrrr_server",
                 "with_clause": "REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL'",
                 "if_exists": "skip"
             },
             "nwm_short_range_channel_rt": {
-                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_nwm_channel_rt.sql",
+                "ddl_uri": "${PROJECT_DIR}/test_assets/sql/ddl_noaa_nwm_channel_rt.sql",
                 "server": "nwm_short_range_channel_rt_server",
                 "with_clause": "REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL'",
                 "if_exists": "skip"
             },
             "nwm_short_range_coastal_total_water_level_latest": {
-                "ddl_uri": "${PROJECT_DIR}/test/sql/ddl_noaa_nwm_total_water.sql",
+                "ddl_uri": "${PROJECT_DIR}/test_assets/sql/ddl_noaa_nwm_total_water.sql",
                 "server": "heavyeco_s3_root",
                 "with_clause": "REFRESH_TIMING_TYPE='MANUAL', REFRESH_UPDATE_TYPE='ALL', REGEX_PATH_FILTER='.*/noaa/nwm/nwm._latest/short_range_coastal_.*/.*'",
                 "if_exists": "skip"
@@ -272,15 +272,15 @@
     "dashboards": {
         "heavyai": {
             "HeavyEco - Flood - Saint Louis": {
-                "dashboard_uri": "${PROJECT_DIR}/test/dashboards/heavyeco_flood_st_louis.json",
+                "dashboard_uri": "${PROJECT_DIR}/test_assets/dashboards/heavyeco_flood_st_louis.json",
                 "if_exists": "rename"
             },
             "HeavyEco - Flood - Southeast Virginia": {
-                "dashboard_uri": "${PROJECT_DIR}/test/dashboards/heavyeco_flood_se_virginia.json",
+                "dashboard_uri": "${PROJECT_DIR}/test_assets/dashboards/heavyeco_flood_se_virginia.json",
                 "if_exists": "rename"
             },
             "Data Processing Status": {
-                "dashboard_uri": "${PROJECT_DIR}/test/dashboards/data_processing_status.json",
+                "dashboard_uri": "${PROJECT_DIR}/test_assets/dashboards/data_processing_status.json",
                 "if_exists": "rename"
             }
         }

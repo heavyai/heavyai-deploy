@@ -5,10 +5,10 @@ import json
 import os
 import re
 import requests
-import sys
 
 from botocore import UNSIGNED
 from botocore.client import Config
+from botocore.exceptions import NoCredentialsError
 from heavyai import Connection
 from icecream import ic
 from string import whitespace as space
@@ -177,35 +177,12 @@ def get_s3_client():
     An S3 client
     """
 
-    aws_creds_profile = os.environ["AWS_PROFILE"] if "AWS_PROFILE" in os.environ and len(os.environ["AWS_PROFILE"]) > 0 \
-                        else 'default'
-    
-    if "HOME" in os.environ and \
-        (os.path.exists(os.environ["HOME"] + "/.aws/credentials") or \
-         os.path.exists(os.environ["HOME"] + "/.aws/config")) \
-    :
-        session = boto3.Session(profile_name=aws_creds_profile, region_name=AWS_REGION)
-        s3_client = session.client('s3')
-
-    elif "AWS_ACCESS_KEY_ID" in os.environ and "AWS_SECRET_ACCESS_KEY" in os.environ:
-        session = boto3.Session(
-                      aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], 
-                      aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'], 
-                      region_name=AWS_REGION
-                  )
-        s3_client = session.client('s3')
-    
-    # meaning this is running in the docker container as an AWS ECS task and 
-    # will pick up permissions from the task's "task execution role" setting.
-    #
-    elif "HOME" in os.environ and os.environ['HOME'] == "/home/mambauser":
-        s3_client = boto3.client("s3")
-
-    # if all else fails, we roll the dice on an anonymous client
-    #
-    else:
+    s3_client = boto3.Session().client('s3')
+    try:
+        # test the client object on a publicly available file from USGS' S3 bucket
+        get_file_content_from_url('s3://prd-tnm/web/css/common.css', s3_client)
+    except NoCredentialsError as e:
         s3_client = get_anon_s3_client()
-
 
     return s3_client
 

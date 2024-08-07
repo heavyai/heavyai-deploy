@@ -8,7 +8,7 @@ import requests
 
 from botocore import UNSIGNED
 from botocore.client import Config
-from botocore.exceptions import NoCredentialsError
+from botocore.exceptions import ClientError
 from heavyai import Connection
 from icecream import ic
 from string import whitespace as space
@@ -179,9 +179,9 @@ def get_s3_client():
 
     s3_client = boto3.Session().client('s3')
     try:
-        # test the client object on a publicly available file from USGS' S3 bucket
-        get_file_content_from_url('s3://prd-tnm/web/css/common.css', s3_client)
-    except NoCredentialsError as e:
+        # test the client object
+        s3_client.get_caller_identity()
+    except (AttributeError, ClientError) as e:
         s3_client = get_anon_s3_client()
 
     return s3_client
@@ -468,7 +468,7 @@ def get_dash_table_deps(dash: dict) -> list[str]:
             v = dash['parameters']['definitions'][p]['defaultValue']
 
             if dash['parameters']['definitions'][p]['type'] == 'JOIN':
-                m = re.match(r'"([^"]?)" (?:[A-Z]? )*JOIN "([^"]?)"', v)
+                m = re.match(r'"([^"]+)" (?:[A-Z]+ )*JOIN "([^"]+)"', v)
                 if m is not None:
                     tabs[m.group(1)] = 1
                     tabs[m.group(2)] = 1

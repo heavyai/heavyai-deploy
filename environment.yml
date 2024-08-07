@@ -23,6 +23,7 @@ dependencies:
 # testing
 - icecream
 - pytest
+- moto
 
 # workflow
 - python-dotenv
